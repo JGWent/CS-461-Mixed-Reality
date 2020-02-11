@@ -1,0 +1,42 @@
+John Graham short project 1
+
+outputScript:
+For the normal picture placement I first read in my source image and my target image. My target was a personal image from a hike I went on. The source image was from spongebob. 
+When I read in my target image it was always the wrong orientation so I had to rotate it in matlab. 
+I converted both to doubles then aligned my source image with my target then created a mask using the new source aligned.
+I then created a png file for the source, target, and mask images.
+Next I read in all the png files I had created converted them to doubles and put them through my alphablending function 5 different times with 5 different filter sizes.
+I then created png files with the filter size in their names for each filter. 
+
+
+alphaBlending function:
+I take in the source, target, mask images and GaussianSize into the function. 
+Next I created the filter by putting the GaussianSize into the fspecial function and getting the spread by converting the size.
+I next added the filter to the mask with the imfilter function and then using the following equation created the new image.
+OutputImage = SourceImage .* GM + TargetImage .* (1-GM);
+
+PyramidOutputScript:
+I read in all the png files I had created converted them to doubles and put them through my pyramidblending function with 3 filter sizes 
+I then created a png file for the output of the pyramidblending function. 
+
+Pyramidblending function: 
+I take in the source, target, mask images and a vector of GaussianSizes into the function. 
+I then created a cell containing all the Gaussian filters for all the sizes in the vector. As well as applying the filters to the mask, target, and source and storing each image with its respective filter and a cell. 
+Next I took the laplacians for both the source and target images with their repective filters. 
+Next I created a cell to hold all the LO's that where created using the following equation. 
+LO{i} = LS{i} .* GM{i} + LT{i} .* (1-GM{i});
+Lastly I added all the LO's together to create the new image. 
+
+videoScript:
+First I read in the video and tracked all the points that would be present throughout the video. 
+I then selected the 167 point and set it as my topleft.
+Next I read in my source image and aligned it with my topleft in the first frame. As well as create a mask for the first frame. 
+Then I used the video writer function to create a new video object.
+During the first alignment I created a .mat file with the crop values and adjusted the alignsource function to load in the crop values instead of asking for it each time. 
+Next  started a while loop that went through each frame of the target video and created a new frame with the source image place with its top left corner at the tracked postion of 167th point. 
+Some times the values in the new frame would be great then 1 by 0.0010 or a bit more or less. Those values were rounded down to 1. 
+This was done because the frames values had to be between 0 and 1 for it to be a valid frame in the video being created. 
+The new alignment for the next track point and mask were created and the created frame was writng in the created video object. 
+This continued till all frames were altered. 
+The video object was closed and the new .mp4 video file was created with source image tracking the 167th points in the video. 
+
